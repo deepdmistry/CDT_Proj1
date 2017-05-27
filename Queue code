@@ -1,0 +1,161 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package tracefile_read;
+
+// ArrayQueue class
+
+import java.util.Queue;
+
+//
+// CONSTRUCTION: with no initializer
+//
+// ******************PUBLIC OPERATIONS*********************
+// void enqueue( x )      --> Insert x
+// Object getFront( )     --> Return least recently inserted item
+// Object dequeue( )      --> Return and remove least recent item
+// boolean isEmpty( )     --> Return true if empty; else false
+// void makeEmpty( )      --> Remove all items
+// ******************ERRORS********************************
+// getFront or dequeue on empty queue
+
+/**
+ * Array-based implementation of the queue.
+ * @author Mark Allen Weiss
+ */
+import java.util.Random;
+public class ArrayQueue {
+private static String[] items; // Stores the elements of the queue
+private int front; // Stores the array index that front is stored in.
+private int size; // Stores number of elements in the queue.
+// Default constructor initializes an empty queue.
+public ArrayQueue() {
+items = new String[10];
+front = 0;
+size = 0;
+}
+// Enqueues the integer n into the queue.
+public void Enqueue(String n) {
+// Takes care of the case where the array is full.
+if (size == items.length) {
+printA(); // Checking contents of items for debugging.
+int i,j;
+String[] temp; // Expanded temporary array to store queue elements.
+temp = new String[2*items.length];
+// Copy all the elements from the queue into the temporary array,
+// resetting the front of the queue to be 0.
+for (i=front,j=0; j < size; j++,i=(i+1)%size)
+temp[j] = items[i];
+// Add in the new element.
+temp[size] = n;
+// Make other necessary adjustments.
+front = 0;
+items = temp;
+printA(); // Checking new contents for debugging.
+}
+// Take care of the normal case.
+else
+items[(front+size)%items.length] = n;
+// Increment size since an element was added.
+size++;
+}
+// Dequeues the front integer from the queue.
+public String Dequeue() {
+// Take care of the normal non-empty queue case.
+if (size > 0) {
+String val = items[front]; // Store item to return.
+// Make necessary adjustments to instance variables.
+front=(front+1)%items.length;
+size--;
+return val; // Return front element.
+}
+return ""; // Signals an empty queue.
+}
+// Returns true if the queue is empty, false otherwise.
+public boolean Empty() {
+return (size == 0);
+}
+// Returns the front element w/o dequeuing it.
+public String Front() {
+// Return the appropriate value.
+if (size > 0)
+return items[front];
+return ""; // Signals empty queue.
+}
+// Method for testing only. Prints the entire contents of items.
+public static void printA() {
+System.out.println();
+for (int i=0; i<items.length; i++)
+System.out.print(i+items[i]+" ");
+System.out.println();
+}
+
+
+
+public static void main(String[] args) {
+ArrayQueue q = new ArrayQueue(); // Create Queue object.
+Random r = new Random(); // Used for testing.
+// Do 20 random insert and delete operations.
+
+int ran = Math.abs(r.nextInt()%4);
+// An enqueue will be performed approx. 6/7 of the time.
+if (ran > 0) {
+q.Enqueue("Deep");
+System.out.println("Enque Deep");
+q.Enqueue("rachit");
+System.out.println("Enque Rachit");
+System.out.println("Deque " +q.Dequeue());
+q.Enqueue("Nishit");
+System.out.println("Enque Nishit");
+q.Enqueue("Prakash");
+System.out.println("Enque Prakash");
+System.out.println("Deque " +q.Dequeue());
+q.Enqueue("Mom");
+System.out.println("Enque MOM");
+System.out.println("Deque " +q.Dequeue());
+System.out.println("Deque " +q.Dequeue());
+q.Enqueue("Mom");
+System.out.println("Enque MOM");
+q.Enqueue("Mom");
+System.out.println("Enque MOM");
+q.Enqueue("Mom");
+System.out.println("Enque MOM");
+q.Enqueue("Mom");
+System.out.println("Enque MOM");
+q.Enqueue("Mom");
+System.out.println("Enque MOM");
+q.Enqueue("Mom");
+System.out.println("Enque MOM");
+q.Enqueue("Mom");
+System.out.println("Enque MOM");
+
+
+printA();
+}
+
+// A dequeue will be performed approx. 1/7 of the time.
+else {
+if (!q.Empty())
+System.out.print("del "+q.Dequeue()+" ");
+}
+
+
+}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
